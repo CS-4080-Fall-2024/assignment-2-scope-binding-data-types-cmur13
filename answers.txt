@@ -1,0 +1,88 @@
+Question 1:
+
+leftmost derivation:
+Statement
+→ Assignment
+→ Identifier = Expression
+→ A = Expression
+→ A = Term
+→ A = Term * Factor
+→ A = Factor * Factor
+→ A = Identifier * Factor
+→ A = B * Factor
+→ A = B * (Expression)
+→ A = B * (Term)
+→ A = B * (Term * Factor)
+→ A = B * (Factor * Factor)
+→ A = B * (Identifier * Factor)
+→ A = B * (C * Factor)
+→ A = B * (C * (Expression))
+→ A = B * (C * (Expression + Term))
+→ A = B * (C * (Term + Term))
+→ A = B * (C * (Factor + Term))
+→ A = B * (C * (Identifier + Term))
+→ A = B * (C * (A + Term ))
+→ A = B * (C * (A + Factor))
+→ A = B * (C * (A + Identifier))
+→ A = B * (C * (A + B))
+
+
+Parse tree:
+                      Statement
+                         |
+                     Assignment
+               /         |         \
+          Identifier     =        Expression
+              |                      |
+              A                     Term
+                              /      |      \
+                            Term     *     Factor
+                            /                  \
+                       Identifier           (Expression)
+                           |                    |
+                           B                   Term
+                                           /    |       \
+                                         Term   *       Factor
+                                          |               |
+                                        Factor        (Expression)
+                                          |          /      |     \
+                                   Identifier   Expression  +     Term
+                                          |         |               |
+                                          C       Term            Factor
+                                                    |               |
+                                                  Factor        Identifier
+                                                    |               |
+                                                Identifier          B
+                                                    |
+                                                    A
+
+Question 2:
+a. In static scope, the bindings of variables are determined at compile-time. When foo(u, 13) is called,
+the v in foo is set to 42 and bar(add) is called. Inside bar, u is locally set to 17
+and add is invoked. Since static scope uses the environment of the definition, add operates with the global u and v,
+calculating u = 69 (global v) + 42 (global u) + 69 (v from bar), resulting in u = 180.
+
+b.Deep binding captures the environment where the function is defined, not where it is called.
+For the given program, foo sets v to 42 and calls bar(add) with add bound to the environment of foo.
+Inside bar, u is locally set to 17, and add is invoked with v as 42 (local to foo). The result is
+u = 42 (foo v) + 17 (bar's local u) + 42 (z), leading to u = 126.
+
+C. Shallow binding captures the environment at the point of function call. For the given program, when foo(u, 13)
+is called, v is set to 42, and bar(add) is called. In bar, u is locally set to 17, and add(v) is invoked with v as 42
+ (local to foo). The calculation u = 42 (foo v) + 17 (bar's local u) + 42 (z) results in u = 101.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
